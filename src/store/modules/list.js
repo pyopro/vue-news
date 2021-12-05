@@ -1,27 +1,27 @@
 import * as APIs from '../../api/index.js'
 
 const state = {
-    item: {}
+    list: []
 };
 
 const getters = {
-    getItemInfo: (state) => {
-        return state.item;
+    getList: (state) => {
+        return state.list;
     }
 };
 
 const mutations = {
-    setItemInfo(state, item) {
-        state.item = item;
+    setList(state, list) {
+        state.list = list;
     }
 };
 
 const actions = {
-    async fetchItemInfo({ commit }, id) {
+    async fetchList({ commit }, resource) {
         try {
-            commit('setItemInfo', {});
-            const { data } = await APIs.fetchItemInfo(id);
-            commit('setItemInfo', data);
+            commit('setList', []);
+            const { data } = await APIs.fetchList(resource);
+            commit('setList', data);
 
             return data;
         } catch (error) {

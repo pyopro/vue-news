@@ -1,18 +1,14 @@
 <template>
   <div>
     <section>
-      <!-- 질문 상세 정보 -->
-      <div class="user-container">
-        <div>
-          <i class="fas fa-user"></i>
-        </div>
-        <div class="user-description">
-          <router-link v-bind:to="`/user/${getItemInfo.user}`">
-            {{ getItemInfo.user }}
-          </router-link>
-          <div class="time">{{ getItemInfo.time_ago }} by</div>
-        </div>
-      </div>
+      <user-profile>
+        <router-link v-bind:to="`/user/${getItemInfo.user}`" slot="user-name">
+          {{ getUserInfo.id }}
+        </router-link>
+        <template slot="time">{{ "Posted " + getUserInfo.created }}</template>
+      </user-profile>
+    </section>
+    <section>
       <h2>{{ getItemInfo.title }}</h2>
     </section>
     <section>
@@ -23,10 +19,24 @@
 
 <script>
 import { mapGetters } from "vuex";
+import UserProfile from "../components/UserProfile";
+import SpinnerMixin from '../mixins/SpinnerMixin.js';
 
 export default {
+  mixins: [SpinnerMixin],
+  components: {
+    UserProfile,
+  },
   computed: {
     ...mapGetters(["getItemInfo"]),
+    getUserInfo: function () {
+      let userInfo = {
+        id: this.getItemInfo.user,
+        created: this.getItemInfo.time_ago,
+      };
+
+      return userInfo;
+    },
   },
   created() {
     const id = this.$route.params.id;

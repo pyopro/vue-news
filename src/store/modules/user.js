@@ -17,10 +17,16 @@ const mutations = {
 };
 
 const actions = {
-    fetchUserInfo({ commit }, userName) {
-        APIs.fetchUserInfo(userName)
-            .then(({ data }) => commit('setUserInfo', data))
-            .catch(error => console.log(error));
+    async fetchUserInfo({ commit }, userName) {
+        try {
+            commit('setUserInfo', {});
+            const { data } = await APIs.fetchUserInfo(userName);
+            commit('setUserInfo', data);
+
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
     }
 };
 

@@ -24,10 +24,19 @@ function fetchItemInfo(id) {
     return axios.get(`${config.baseUrl}/item/${id}.json`);
 }
 
+function fetchList(resource) {
+    if (resource === 'news' || resource === 'ask' || resource === 'jobs') {
+        return axios.get(`${config.baseUrl}/${resource}/1.json`);
+    } else {
+        throw new Error("Resource Type error");
+    }
+}
+
 export {
     fetchNewsList,
     fetchAskList,
     fetchJobsList,
     fetchUserInfo,
-    fetchItemInfo
+    fetchItemInfo,
+    fetchList
 }
